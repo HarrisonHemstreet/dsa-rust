@@ -17,6 +17,29 @@ fn main() {
     // fib(3);
     // println!("fib: {}", fib(14))
     // println!("reverse_string: {}", reverse_string(String::from("apple")));
+    println!("is pallindrome: {}", is_palindrome(String::from("hannah")));
+    // println!(is_palindrome(String::from("apple")));
+}
+
+fn is_palindrome(string: String) -> bool {
+    let str_len: i32 = string.len() as i32;
+    let new_string: String = String::from("");
+    let original_string = string.clone();
+    fn reverse_string_algo(
+        mut str_len: i32,
+        mut new_string: String,
+        mut old_string: String,
+    ) -> String {
+        let to_push = &old_string.pop().unwrap();
+        new_string.push_str(&to_push.to_string()[..]);
+        str_len -= 1;
+        if str_len <= 0 {
+            return new_string;
+        }
+        reverse_string_algo(str_len, new_string, old_string)
+    }
+    let rev_string = reverse_string_algo(str_len, new_string, string);
+    rev_string == original_string
 }
 
 fn reverse_string(string: String) -> String {
