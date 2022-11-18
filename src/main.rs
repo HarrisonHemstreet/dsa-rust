@@ -16,6 +16,26 @@ fn main() {
     // recursiveRange(4);
     // fib(3);
     // println!("fib: {}", fib(14))
+    // println!("reverse_string: {}", reverse_string(String::from("apple")));
+}
+
+fn reverse_string(string: String) -> String {
+    let str_len: i32 = string.len() as i32;
+    let new_string: String = String::from("");
+    fn reverse_string_algo(
+        mut str_len: i32,
+        mut new_string: String,
+        mut old_string: String,
+    ) -> String {
+        let to_push = &old_string.pop().unwrap();
+        new_string.push_str(&to_push.to_string()[..]);
+        str_len -= 1;
+        if str_len <= 0 {
+            return new_string;
+        }
+        reverse_string_algo(str_len, new_string, old_string)
+    }
+    reverse_string_algo(str_len, new_string, string)
 }
 
 fn fib(num: i32) -> i32 {
