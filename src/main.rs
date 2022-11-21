@@ -17,8 +17,16 @@ fn main() {
     // fib(3);
     // println!("fib: {}", fib(14))
     // println!("reverse_string: {}", reverse_string(String::from("apple")));
-    println!("is pallindrome: {}", is_palindrome(String::from("hannah")));
+    // println!("is pallindrome: {}", is_palindrome(String::from("hannah")));
     // println!(is_palindrome(String::from("apple")));
+}
+
+fn equals_one(num: i32) -> bool {
+    num == 1i32
+}
+
+fn some_recursive(arr: [i32; 4], cb) {
+    
 }
 
 fn is_palindrome(string: String) -> bool {
