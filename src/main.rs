@@ -19,15 +19,76 @@ fn main() {
     // println!("reverse_string: {}", reverse_string(String::from("apple")));
     // println!("is pallindrome: {}", is_palindrome(String::from("hannah")));
     // println!(is_palindrome(String::from("apple")));
+    // println!("linear_search: {}", linear_search(vec![1,2,3,5], 50));
+    // println!("b_search: {}", b_search(vec![1,2,3,4,5,6,7,8,9], 15));
+    println!("naive_search_v1: {:?}", naive_search_v1(String::from("hello"), String::from("hell")));
+}
+
+fn naive_search_v1(string: String, sub: String) -> i32 {
+    let mut count: i32 = 0;
+    for (i, letter) in string.chars().enumerate() {
+        let mut inner_count: i32 = 0;
+        for (j, sub_letter) in sub.chars().enumerate() {
+            println!("letter: {}, sub: {}", letter, sub_letter);
+            if letter != sub_letter {
+                break;
+            }
+            inner_count += 1;
+            println!("inner_count: {}", inner_count);
+            if inner_count == sub.len() as i32 {
+                count += 1;
+            }
+        } 
+    }
+    count
+}
+
+fn b_search(nums: Vec<i32>, target: i32) -> i32 {
+    let mut left_p: usize = 0;
+    let mut right_p: usize = nums.len() - 1;
+    let mut middle_p: usize = nums.len() / 2;
+
+    while left_p < right_p {
+        if nums[left_p] == target {
+            return left_p as i32;
+        }
+        if nums[right_p] == target {
+            return right_p as i32;
+        }
+        if nums[middle_p] == target {
+            return middle_p as i32;
+        }
+        if nums[middle_p] < target {
+            left_p = middle_p;
+        }
+        else if nums[middle_p] > target {
+            right_p = middle_p;
+        }
+        if (right_p - left_p) < 2 {
+            break;
+        }
+        middle_p = (right_p + left_p) / 2;
+        println!("left_p: {}, middle_p: {}, right_p: {}", left_p, middle_p, right_p);
+    }
+    -1
+}
+
+fn linear_search(nums: Vec<i32>, target: i32) -> i32 {
+    for (i, num) in nums.iter().enumerate() {
+        if *num == target {
+            return i as i32;
+        }
+    }
+    -1
 }
 
 fn equals_one(num: i32) -> bool {
     num == 1i32
 }
 
-fn some_recursive(arr: [i32; 4], cb) {
-    
-}
+// fn some_recursive(arr: [i32; 4], cb) {
+//     
+// }
 
 fn is_palindrome(string: String) -> bool {
     let str_len: i32 = string.len() as i32;
