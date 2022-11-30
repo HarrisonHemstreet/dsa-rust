@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 fn main() {
     // valid_anagram("aaabc".to_string(), "cbaaa".to_string());
@@ -21,21 +21,78 @@ fn main() {
     // println!(is_palindrome(String::from("apple")));
     // println!("linear_search: {}", linear_search(vec![1,2,3,5], 50));
     // println!("b_search: {}", b_search(vec![1,2,3,4,5,6,7,8,9], 15));
-    println!("naive_search_v1: {:?}", naive_search_v1(String::from("hello"), String::from("hell")));
+    // println!("naive_search_v1: {:?}", naive_search_v1(String::from("hellohellhell"), String::from("hell")));
+    // println!("fibonacci_clean: {}", fibonacci_clean(9))
+    // println!("two_sum2: {:?}", two_sum2(vec![1,2,3,4], 9))
+    // println!("is_valid_subsequence: {:?}", is_valid_subsequence(vec![1,2,3,4], vec![5]))
+}
+
+fn is_valid_subsequence(nums: Vec<i32>, sub: Vec<i32>) -> bool {
+    let mut nums_set: HashSet<i32> = HashSet::new();
+    let mut sub_set: HashSet<i32> = HashSet::new();
+    for num in nums {
+        nums_set.insert(num);
+    }
+    for num in sub {
+        sub_set.insert(num);
+    }
+    for num in sub_set {
+        if !nums_set.remove(&num) {
+            return false;
+        }
+    }
+    true
+}
+
+fn two_sum2(nums: Vec<i32>, target: i32) -> Vec<i32> {
+    println!("nums: {:?}, target: {}", nums, target);
+    let nums_clone = nums.clone();
+    let mut nums_map: HashMap<i32, i32> = HashMap::new();
+
+    for (i, num) in nums_clone.iter().enumerate() {
+        nums_map.insert(*num, i as i32);
+    }
+
+    for num in nums {
+        let to_find: i32 = &target - &num;
+        let found_key: Option<&i32> = nums_map.get(&to_find);
+        match found_key {
+            Some(value) => {
+                return vec![*nums_map.get(&num).unwrap(), *value]
+            },
+            None => {
+                continue;
+            }
+        }
+    }
+
+    vec![-1, -1]
+}
+
+fn fibonacci_clean(n: u64) -> u64 {
+    if n < 2 {
+        return n;
+    }
+    let mut fib_prev = 1;
+    let mut fib = 1;
+    for _ in 2..n {
+        (fib_prev, fib) = (fib, fib + fib_prev);
+    }
+    fib
 }
 
 fn naive_search_v1(string: String, sub: String) -> i32 {
     let mut count: i32 = 0;
-    for (i, letter) in string.chars().enumerate() {
-        let mut inner_count: i32 = 0;
-        for (j, sub_letter) in sub.chars().enumerate() {
-            println!("letter: {}, sub: {}", letter, sub_letter);
-            if letter != sub_letter {
+    let str_vec: Vec<char> = string.chars().collect();
+    let sub_vec: Vec<char> = sub.chars().collect();
+    for (i, c) in str_vec.iter().enumerate() {
+        for (j, sc) in sub_vec.iter().enumerate() {
+            println!("c: {}, sc: {}", c, sc);
+            if sub_vec[j] != str_vec[i + j] {
+                println!("break!");
                 break;
             }
-            inner_count += 1;
-            println!("inner_count: {}", inner_count);
-            if inner_count == sub.len() as i32 {
+            if j == sub_vec.len() - 1 {
                 count += 1;
             }
         } 
