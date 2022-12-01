@@ -24,7 +24,64 @@ fn main() {
     // println!("naive_search_v1: {:?}", naive_search_v1(String::from("hellohellhell"), String::from("hell")));
     // println!("fibonacci_clean: {}", fibonacci_clean(9))
     // println!("two_sum2: {:?}", two_sum2(vec![1,2,3,4], 9))
-    // println!("is_valid_subsequence: {:?}", is_valid_subsequence(vec![1,2,3,4], vec![5]))
+    // println!("is_valid_subsequence: {:?}", is_valid_subsequence(vec![1,2,3,4], vec![4, 3]))
+    // println!("square_sorted_arr: {:?}", square_sorted_arr(vec![1,2,3,4,5]));
+    // println!("tournament_winner: {:?}",
+    //     tournament_winner(vec![
+    //         vec!["HTML", "C#"],
+    //         vec!["C#", "Python"],
+    //         vec!["Python", "HTML"],
+    //         vec!["HTML", "test"],
+    //         vec!["HTML", "test"],
+    //         vec!["HTML", "test"],
+    //         vec!["HTML", "test"]
+    //     ],
+    //     vec![0,0,1,1,1,1,1])
+    // )
+}
+
+fn tournament_winner(competitions: Vec<Vec<&str>>, results: Vec<i32>) -> &str {
+    // 1. loop through competitions
+    // 2. loop through each sub pair
+    // 3. if the corresponding location within results is a 1, then award points to the first team
+    //    of the subarray
+    // 4. if the corresponding location within results is a 0, then award points to the second team
+    //    of the subarray
+    // 5. points will be kept track of via a hashmap
+    // 4. return the hashmap key with the highest value
+    
+    let mut scores: HashMap<&str, i32> = HashMap::new();
+    for (i, competition) in competitions.iter().enumerate() {
+        let key: &str = if results[i] == 1 { competition[0] } else { competition[1] };
+        if scores.contains_key(key) {
+            scores.entry(key).and_modify(|v| *v += 3);
+        } else {
+            scores.insert(key, 3);
+        }
+    }
+
+    println!("scores: {:?}", scores);
+    
+    let mut res: &str = "None";
+    let mut high_score: i32 = 0;
+    for (competitor, score) in scores {
+        if score > high_score {
+            high_score = score;
+            res = competitor;
+        }
+    }
+    res
+}
+
+fn square_sorted_arr(nums: Vec<i32>) -> Vec<i32> {
+    if nums.len() == 0 {
+        return vec![];
+    }
+    let mut res: Vec<i32> = vec![];
+    for num in nums {
+        res.push(num * num)
+    }
+    res
 }
 
 fn is_valid_subsequence(nums: Vec<i32>, sub: Vec<i32>) -> bool {
