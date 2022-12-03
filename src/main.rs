@@ -38,6 +38,38 @@ fn main() {
     //     ],
     //     vec![0,0,1,1,1,1,1])
     // )
+    // let mut count: i32 = 0;
+    // println!(
+    //     "bubble_sort: {:?}",
+    //     bubble_sort(vec![9, 8, 7, 6, 5, 4, 3, 2, 1], count)
+    // );
+}
+
+fn bubble_sort(mut nums: Vec<i32>, mut count: i32) -> Vec<i32> {
+    // 1. loop through array
+    // 2. compare arr[i] > arr[i + 1]; swap values
+    // 3. make it recursive and do it until a swap does not happen
+    // for (i, num) in nums.iter().enumerate() {}
+    let mut i: usize = 0;
+    let mut swapped: bool = false;
+    loop {
+        count += 1;
+        if i >= (nums.len() - 1) {
+            break;
+        }
+        if nums[i] > nums[i + 1] {
+            (nums[i], nums[i + 1]) = (nums[i + 1], nums[i]);
+            swapped = true;
+        }
+        i += 1;
+    }
+
+    if swapped {
+        return bubble_sort(nums, count);
+    }
+
+    println!("count: {:?}", count);
+    nums
 }
 
 fn tournament_winner(competitions: Vec<Vec<&str>>, results: Vec<i32>) -> &str {
@@ -49,10 +81,14 @@ fn tournament_winner(competitions: Vec<Vec<&str>>, results: Vec<i32>) -> &str {
     //    of the subarray
     // 5. points will be kept track of via a hashmap
     // 4. return the hashmap key with the highest value
-    
+
     let mut scores: HashMap<&str, i32> = HashMap::new();
     for (i, competition) in competitions.iter().enumerate() {
-        let key: &str = if results[i] == 1 { competition[0] } else { competition[1] };
+        let key: &str = if results[i] == 1 {
+            competition[0]
+        } else {
+            competition[1]
+        };
         if scores.contains_key(key) {
             scores.entry(key).and_modify(|v| *v += 3);
         } else {
@@ -61,7 +97,7 @@ fn tournament_winner(competitions: Vec<Vec<&str>>, results: Vec<i32>) -> &str {
     }
 
     println!("scores: {:?}", scores);
-    
+
     let mut res: &str = "None";
     let mut high_score: i32 = 0;
     for (competitor, score) in scores {
@@ -114,9 +150,7 @@ fn two_sum2(nums: Vec<i32>, target: i32) -> Vec<i32> {
         let to_find: i32 = &target - &num;
         let found_key: Option<&i32> = nums_map.get(&to_find);
         match found_key {
-            Some(value) => {
-                return vec![*nums_map.get(&num).unwrap(), *value]
-            },
+            Some(value) => return vec![*nums_map.get(&num).unwrap(), *value],
             None => {
                 continue;
             }
@@ -152,7 +186,7 @@ fn naive_search_v1(string: String, sub: String) -> i32 {
             if j == sub_vec.len() - 1 {
                 count += 1;
             }
-        } 
+        }
     }
     count
 }
@@ -174,15 +208,17 @@ fn b_search(nums: Vec<i32>, target: i32) -> i32 {
         }
         if nums[middle_p] < target {
             left_p = middle_p;
-        }
-        else if nums[middle_p] > target {
+        } else if nums[middle_p] > target {
             right_p = middle_p;
         }
         if (right_p - left_p) < 2 {
             break;
         }
         middle_p = (right_p + left_p) / 2;
-        println!("left_p: {}, middle_p: {}, right_p: {}", left_p, middle_p, right_p);
+        println!(
+            "left_p: {}, middle_p: {}, right_p: {}",
+            left_p, middle_p, right_p
+        );
     }
     -1
 }
@@ -201,7 +237,7 @@ fn equals_one(num: i32) -> bool {
 }
 
 // fn some_recursive(arr: [i32; 4], cb) {
-//     
+//
 // }
 
 fn is_palindrome(string: String) -> bool {
