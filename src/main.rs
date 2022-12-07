@@ -43,6 +43,35 @@ fn main() {
     //     "bubble_sort: {:?}",
     //     bubble_sort(vec![9, 8, 7, 6, 5, 4, 3, 2, 1], count)
     // );
+    // let mut count: i32 = 0;
+    println!(
+        "bubble_sort: {:?}",
+        selection_sort(vec![1, 3, 0, 2, 3, 3, 2, 2])
+    );
+}
+
+fn selection_sort(mut nums: Vec<i32>) -> Vec<i32> {
+    #[derive(Debug)]
+    struct num {
+        index: usize,
+        value: i32,
+    }
+    let mut i: usize = 0;
+    let mut min: i32 = nums[0];
+    // println!("nums: {:?}", nums);
+    // find the smallest value
+    loop {
+        println!("nums: {:?}", nums);
+        if i >= nums.len() {
+            break;
+        }
+        if min > nums[i] {
+            min = nums[i];
+        }
+        i += 1;
+    }
+    println!("min: {min}");
+    nums
 }
 
 fn bubble_sort(mut nums: Vec<i32>, mut count: i32) -> Vec<i32> {
