@@ -44,10 +44,44 @@ fn main() {
     //     bubble_sort(vec![9, 8, 7, 6, 5, 4, 3, 2, 1], count)
     // );
     // let mut count: i32 = 0;
-    println!("selection_sort: {:?}", selection_sort(vec![4, 3, 2, 1], 0));
+    println!(
+        "selection_sort: {:?}",
+        selection_sort(vec![1, 4, 50, 3, 2, 1], 0)
+    );
 }
 
 fn selection_sort(mut nums: Vec<i32>, mut start_from: usize) -> Vec<i32> {
+    let mut i: usize = start_from;
+    let mut k: usize = 0;
+    let mut min: usize = 0;
+    loop {
+        if i >= nums.len() - 1 {
+            break;
+        }
+        if nums[i] > nums[i + 1] {
+            min = i + 1;
+        }
+        i += 1;
+    }
+    loop {
+        if k >= nums.len() - 1 {
+            return nums;
+        }
+        if nums[k] > nums[k + 1] {
+            break;
+        }
+        k += 1;
+    }
+    nums = swap_indicies(nums, min, start_from);
+    start_from += 1;
+    println!("nums: {:?}", nums);
+    selection_sort(nums, start_from)
+}
+
+fn selection_sort_old(mut nums: Vec<i32>, mut start_from: usize) -> Vec<i32> {
+    if start_from > (nums.len() - 1) {
+        start_from = 0;
+    }
     let mut min: usize = start_from;
     let mut i: usize = 0;
     let mut k: usize = 0;
@@ -66,7 +100,7 @@ fn selection_sort(mut nums: Vec<i32>, mut start_from: usize) -> Vec<i32> {
     */
     // swap the correct digits
     loop {
-        if i > nums.len() - 1 {
+        if i > nums.len() - 1 - start_from {
             break;
         }
         if nums[i] > nums[min] {
@@ -78,8 +112,10 @@ fn selection_sort(mut nums: Vec<i32>, mut start_from: usize) -> Vec<i32> {
         }
         i += 1;
     }
+
     loop {
-        if k > nums.len() - 1 {
+        println!("stuck in here");
+        if k > nums.len() - 1 - start_from {
             return nums;
         }
         if nums[k] > nums[k + 1] {
@@ -89,7 +125,7 @@ fn selection_sort(mut nums: Vec<i32>, mut start_from: usize) -> Vec<i32> {
     }
     // let nums = swap_indicies(nums, 0, 2);
     start_from += 1;
-    selection_sort(nums, start_from)
+    selection_sort_old(nums, start_from)
 }
 
 fn swap_indicies(mut nums: Vec<i32>, indx1: usize, indx2: usize) -> Vec<i32> {
