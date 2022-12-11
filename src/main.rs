@@ -44,33 +44,56 @@ fn main() {
     //     bubble_sort(vec![9, 8, 7, 6, 5, 4, 3, 2, 1], count)
     // );
     // let mut count: i32 = 0;
-    println!(
-        "bubble_sort: {:?}",
-        selection_sort(vec![1, 3, 0, 2, 3, 3, 2, 2])
-    );
+    println!("selection_sort: {:?}", selection_sort(vec![4, 3, 2, 1], 0));
 }
 
-fn selection_sort(mut nums: Vec<i32>) -> Vec<i32> {
-    #[derive(Debug)]
-    struct num {
-        index: usize,
-        value: i32,
-    }
+fn selection_sort(mut nums: Vec<i32>, mut start_from: usize) -> Vec<i32> {
+    let mut min: usize = start_from;
     let mut i: usize = 0;
-    let mut min: i32 = nums[0];
-    // println!("nums: {:?}", nums);
-    // find the smallest value
+    let mut k: usize = 0;
+    // find the smallest digit
+    /*
     loop {
-        println!("nums: {:?}", nums);
-        if i >= nums.len() {
+        if j > nums.len() - 1 {
             break;
         }
-        if min > nums[i] {
-            min = nums[i];
+        if nums[min] > nums[j] {
+            min = j;
+        }
+        println!("min: {min}");
+        j += 1;
+    }
+    */
+    // swap the correct digits
+    loop {
+        if i > nums.len() - 1 {
+            break;
+        }
+        if nums[i] > nums[min] {
+            continue;
+        } else if nums[i] < nums[min] {
+            println!("before num swap: {:?}", nums);
+            nums = swap_indicies(nums, min, i);
+            println!("after num swap: {:?}", nums);
         }
         i += 1;
     }
-    println!("min: {min}");
+    loop {
+        if k > nums.len() - 1 {
+            return nums;
+        }
+        if nums[k] > nums[k + 1] {
+            break;
+        }
+        k += 1;
+    }
+    // let nums = swap_indicies(nums, 0, 2);
+    start_from += 1;
+    selection_sort(nums, start_from)
+}
+
+fn swap_indicies(mut nums: Vec<i32>, indx1: usize, indx2: usize) -> Vec<i32> {
+    (nums[indx1], nums[indx2]) = (nums[indx2], nums[indx1]);
     nums
 }
 
