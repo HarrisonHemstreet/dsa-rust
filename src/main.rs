@@ -44,10 +44,10 @@ fn main() {
     //     bubble_sort(vec![9, 8, 7, 6, 5, 4, 3, 2, 1], count)
     // );
     // let mut count: i32 = 0;
-    println!(
-        "selection_sort: {:?}",
-        selection_sort(vec![1, 4, 50, 3, 2, 1], 0)
-    );
+    // println!(
+    //     "selection_sort: {:?}",
+    //     selection_sort(vec![1, 4, 50, 3, 2, 1], 0)
+    // );
 }
 
 fn selection_sort(mut nums: Vec<i32>, mut start_from: usize) -> Vec<i32> {
@@ -77,7 +77,6 @@ fn selection_sort(mut nums: Vec<i32>, mut start_from: usize) -> Vec<i32> {
     }
     nums = swap_indicies(nums, min, start_from);
     start_from += 1;
-    println!("nums: {:?}", nums);
     selection_sort(nums, start_from)
 }
 
