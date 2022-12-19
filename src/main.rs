@@ -48,7 +48,7 @@ fn main() {
     //     "selection_sort: {:?}",
     //     selection_sort(vec![1, 4, 50, 3, 2, 1], 0)
     // );
-    println!("insertion_sort: {:?}", insertion_sort(vec![1, 2, 8]));
+    println!("insertion_sort: {:?}", insertion_sort(vec![9, 1, 2, 8]));
 }
 
 fn insertion_sort(mut nums: Vec<i32>) -> Vec<i32> {
