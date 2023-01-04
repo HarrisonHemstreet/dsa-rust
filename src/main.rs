@@ -69,7 +69,7 @@ fn insertion_sort(mut nums: Vec<i32>) -> Vec<i32> {
             continue;
         }
     }
-    nums = swap_indicies(nums, i, i - 1usize);
+    nums.swap(i, i - 1usize);
     insertion_sort(nums)
 }
 
