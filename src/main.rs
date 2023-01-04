@@ -48,27 +48,29 @@ fn main() {
     //     "selection_sort: {:?}",
     //     selection_sort(vec![1, 4, 50, 3, 2, 1], 0)
     // );
-    println!("insertion_sort: {:?}", insertion_sort(vec![9, 1, 2, 8]));
+    println!("insertion_sort: {:?}", insertion_sort(vec![6, 1, 2, 4, 5]));
 }
 
 fn insertion_sort(mut nums: Vec<i32>) -> Vec<i32> {
-    let mut i: usize = 0;
+    let mut i: usize = 1;
     loop {
         if i >= nums.len() {
+            return nums;
+        }
+
+        // if first is greater than second
+        if nums[i - 1usize] > nums[i] {
             break;
         }
 
-        let mut j: usize = 0;
-        loop {
-            if j >= nums.len() {
-                break;
-            }
-            j += 1;
+        // if second is greater than first
+        if nums[i] > nums[i - 1usize] {
+            i += 1;
+            continue;
         }
-        println!("in here: nums[i]: {}", nums[i]);
-        i += 1;
     }
-    nums
+    nums = swap_indicies(nums, i, i - 1usize);
+    insertion_sort(nums)
 }
 
 fn selection_sort(mut nums: Vec<i32>, mut start_from: usize) -> Vec<i32> {
