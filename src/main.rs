@@ -48,7 +48,10 @@ fn main() {
     //     "selection_sort: {:?}",
     //     selection_sort(vec![1, 4, 50, 3, 2, 1], 0)
     // );
-    println!("insertion_sort: {:?}", insertion_sort(vec![6, 1, 2, 4, 5]));
+    println!(
+        "insertion_sort: {:?}",
+        insertion_sort(vec![50, 1, 6, 1, 4, 9, 2, 4, 5])
+    );
 }
 
 fn insertion_sort(mut nums: Vec<i32>) -> Vec<i32> {
@@ -64,7 +67,7 @@ fn insertion_sort(mut nums: Vec<i32>) -> Vec<i32> {
         }
 
         // if second is greater than first
-        if nums[i] > nums[i - 1usize] {
+        if nums[i] >= nums[i - 1usize] {
             i += 1;
             continue;
         }
