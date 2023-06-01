@@ -48,10 +48,95 @@ fn main() {
     //     "selection_sort: {:?}",
     //     selection_sort(vec![1, 4, 50, 3, 2, 1], 0)
     // );
-    println!(
-        "insertion_sort: {:?}",
-        insertion_sort(vec![50, 1, 6, 1, 4, 9, 2, 4, 5])
-    );
+    // println!(
+    //     "insertion_sort: {:?}",
+    //     insertion_sort(vec![50, 1, 6, 1, 4, 9, 2, 4, 5])
+    // );
+
+    // println!("merge_sorted: {:?}", merge_sorted(vec![3, 8, 10, 11, 12], vec![1, 4, 5, 6,99,100,110]));
+    // println!("merge_sort: {:?}", merge_sort(vec![9,8,7,6,5,1,2,3,4]));
+    println!("quick_sort: {:?}", quick_sort(vec![5,2,3,4], 0))
+}
+
+fn quick_sort(mut vec1: Vec<i32>, pivot_index: usize) -> Vec<i32> {
+    println!("func ran!");
+    /*
+    * 1. make the first number the pivot. when you do, loop through and count how many numbers come
+    *    before it. put the pivot at the place it should be
+    * 2. loop through vec and compare pivot to each number. if the number is less than the pivot,
+    *    count up and swap the number with the last one that was bigger. if the number is bigger
+    *    then just set the position of that number as the last biggest number
+    * 3. move onto the next number (this may be done recursively maybe)
+    */
+
+    let pivot: i32 = vec1[pivot_index];
+    let mut position: usize = 0;
+    for num in &vec1 {
+        if num <= &pivot {
+            position += 1;
+        }
+    }
+
+    vec1.swap(pivot_index, position - 1);
+
+    println!("position: {position}");
+    println!("vec1: {:?}", vec1);
+
+    let mut i: usize = 0;
+    loop {
+        i += 1;
+        if &i >= &vec1.len() {
+            break;
+        }
+        if &vec1[i] > &vec1[i - 1] {
+            continue;
+        }
+        if &vec1[i] < &vec1[i - 1] {
+            println!("in if: vec1: {:?}", vec1);
+            quick_sort(vec1.clone(), i - 1);
+        }
+    }
+
+    vec1
+}
+
+// O(n log n)
+fn merge_sort(vec1: Vec<i32>) -> Vec<i32> {
+    if vec1.len() <= 1 {
+        return vec1;
+    }
+    let vec1_copy = vec1.clone();
+    let mid: usize = vec1.len() / 2usize;
+    let left = merge_sort(vec1_copy[..mid].to_vec());
+    let right = merge_sort(vec1[mid..].to_vec());
+    merge_sorted(left, right)
+}
+
+
+// the muscle behind the merge sort algo/func
+fn merge_sorted(vec1: Vec<i32>, vec2: Vec<i32>) -> Vec<i32> {
+    let mut j: usize = 0;
+    let mut k: usize = 0;
+    let mut res: Vec<i32> = Vec::new();
+
+    while j < vec1.len() && k < vec2.len() {
+        if vec1[j] < vec2[k] {
+            res.push(vec1[j]);
+            j += 1;
+        } else {
+            res.push(vec2[k]);
+            k += 1;
+        }
+    }
+    while j < vec1.len() {
+        res.push(vec1[j]);
+        j += 1;
+    }
+    while k < vec2.len() {
+        res.push(vec2[k]);
+        k += 1;
+    }
+    res
 }
 
 fn insertion_sort(mut nums: Vec<i32>) -> Vec<i32> {
