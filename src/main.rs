@@ -60,6 +60,7 @@ fn main() {
 
 fn quick_sort(mut vec1: Vec<i32>, pivot_index: usize) -> Vec<i32> {
     println!("func ran!");
+    println!("vec1: {:?}", vec1);
     /*
     * 1. make the first number the pivot. when you do, loop through and count how many numbers come
     *    before it. put the pivot at the place it should be
@@ -69,35 +70,75 @@ fn quick_sort(mut vec1: Vec<i32>, pivot_index: usize) -> Vec<i32> {
     * 3. move onto the next number (this may be done recursively maybe)
     */
 
-    let pivot: i32 = vec1[pivot_index];
-    let mut position: usize = 0;
-    for num in &vec1 {
-        if num <= &pivot {
-            position += 1;
-        }
-    }
+    // let pivot: i32 = vec1[pivot_index];
+    // let mut position: usize = 0;
+    // for num in &vec1 {
+    //     if num <= &pivot {
+    //         position += 1;
+    //     }
+    // }
 
-    vec1.swap(pivot_index, position - 1);
+    // vec1.swap(pivot_index, position - 1);
 
-    println!("position: {position}");
-    println!("vec1: {:?}", vec1);
+    // println!("position: {position}");
+    // println!("vec1: {:?}", vec1);
+
+    // println!("checks: {checks}");
+    // if checks == vec1.len() {
+    //     return vec1;
+    // }
 
     let mut i: usize = 0;
     loop {
         i += 1;
+        // println!("vec1: {:?}", vec1);
         if &i >= &vec1.len() {
-            break;
+            return vec1;
+            // break;
         }
         if &vec1[i] > &vec1[i - 1] {
             continue;
         }
         if &vec1[i] < &vec1[i - 1] {
-            println!("in if: vec1: {:?}", vec1);
-            quick_sort(vec1.clone(), i - 1);
+            let pivot: i32 = vec1[pivot_index];
+            let mut position: usize = 0;
+            for num in &vec1 {
+                if num <= &pivot {
+                    position += 1;
+                }
+            }
+
+            vec1.swap(pivot_index, position - 1);
+
+            // println!("position: {position}");
+
+            let mut j: usize = 0;
+            let mut checks: usize = 0;
+            let mut res: bool = false;
+            loop {
+                j += 1;
+                if &j >= &vec1.len() {
+                    println!("in end if: vec1: {:?}", vec1);
+                    // println!("checks: {checks}");
+                    res = true;
+                    return vec1;
+                }
+                if &vec1[j] < &vec1[j - 1] {
+                    // println!("in before if: {:?} < {:?}", &vec1[j], &vec1[j - 1]);
+                    break;
+                }
+                if &vec1[j] > &vec1[j - 1] {
+                    checks += 1;
+                    continue;
+                }
+            }
+            if !res {
+                quick_sort(vec1.clone(), i - 1);
+            }
         }
     }
 
-    vec1
+    // vec1
 }
 
 // O(n log n)
