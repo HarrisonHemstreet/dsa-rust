@@ -55,19 +55,29 @@ fn main() {
 
     // println!("merge_sorted: {:?}", merge_sorted(vec![3, 8, 10, 11, 12], vec![1, 4, 5, 6,99,100,110]));
     // println!("merge_sort: {:?}", merge_sort(vec![9,8,7,6,5,1,2,3,4]));
-    println!("quick_sort: {:?}", quick_sort(vec![5,2,3,4], 0))
+    println!("quick_sort: {:?}", quick_sort(vec![5,2,3,4], 0, 0))
 }
 
-fn quick_sort(mut vec1: Vec<i32>, pivot_index: usize) -> Vec<i32> {
-    println!("func ran!");
-    println!("vec1: {:?}", vec1);
+fn quick_sort(mut vec1: Vec<i32>, pivot_index: usize, mut iter: usize) -> Vec<i32> {
+
+    let mut k: usize = 0;
+    loop {
+        println!("in first loop: vec1: {:?}, iter: {iter}", vec1);
+        k += 1;
+        if k >= vec1.len() {
+            // println!("in seq check: vec1: {:?}", vec1);
+            return vec1;
+        }
+        if &vec1[k] < &vec1[k - 1] {
+            break;
+        }
+    }
 
     let mut i: usize = 0;
-    loop {
+    'outer: loop {
+        println!("in second loop: vec1: {:?}, iter: {iter}", vec1);
         i += 1;
         if &i >= &vec1.len() {
-            // break;
-            println!("outer in if: vec1: {:?}", vec1);
             return vec1;
         }
         if &vec1[i] < &vec1[i - 1] {
@@ -84,34 +94,32 @@ fn quick_sort(mut vec1: Vec<i32>, pivot_index: usize) -> Vec<i32> {
             let mut j: usize = 0;
             let mut checks: usize = 0;
             let mut res: bool = false;
-            loop {
+            'inner: loop {
+                println!("in third loop: vec1: {:?}, iter: {iter}", vec1);
                 j += 1;
                 if &j >= &vec1.len() {
-                    println!("in if: vec1: {:?}", vec1);
-                    println!("checks == (&vec1.len() - 1): {checks} == {:?}", &vec1.len() - 1);
-                    res = true;
-                    return vec1;
+                    // println!("checks == (&vec1.len() - 1): {checks} == {:?}", &vec1.len() - 1);
+                    break 'outer;
+                    // res = true;
+                    // return vec1;
                 }
-                println!("test1");
                 if &vec1[j] < &vec1[j - 1] {
-                    break;
+                    iter += 1;
+                    quick_sort(vec1.clone(), j - 1, iter);
+                    break 'outer;
                 }
                 if &vec1[j] > &vec1[j - 1] {
                     checks += 1;
                     continue;
                 }
-                println!("checks == (&vec1.len() - 1): {checks} == {:?}", &vec1.len() - 1);
                 if checks == (&vec1.len() - 1) {
-                    println!("before recursion: vec1: {:?}", vec1);
                     return vec1;
                 } 
             }
-            if !res {
-                println!("test2");
-                quick_sort(vec1.clone(), i - 1);
-            }
         }
     }
+    println!("in end: vec1: {:?}, iter: {iter}", vec1);
+    vec1
 }
 
 // O(n log n)
