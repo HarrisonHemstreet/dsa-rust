@@ -59,6 +59,9 @@ fn main() {
     println!("quick_sort: {:?}", quick_sort(vec![5,2,1,8,4,7,6,3], None, None));
 }
 
+// this doesn't work. I got as far as I could w/ Colt Steele's udemy course. Uncomment this out to
+// see the answer he came up with. My answer (that works, but maybe not in the same way as this
+// should)
 fn quick_sort(mut nums: Vec<i32>, left: Option<usize>, right: Option<usize>) -> Vec<i32> {
     let _left: usize = match left {
         Some(x) => x,
@@ -70,40 +73,15 @@ fn quick_sort(mut nums: Vec<i32>, left: Option<usize>, right: Option<usize>) -> 
         None => nums.len() - 1
     };
 
-    println!("_left < _right: {} < {}", _left, _right);
-
     if _left < _right {
-        let pivot_helper = pivot_helper(nums, Some(_left), Some(_right));
-        nums = pivot_helper.nums;
-        println!("nums: {:?}", nums);
-        let mut i: usize = 1;
-        loop {
-            if i >= nums.len() {
-                println!("breaking in above");
-                break;
-            }
-            if nums[i] > nums[i - 1] {
-                println!("breaking in below");
-                break;
-            }
-            i += 1;
-        }
-        if i >= nums.len() {
-            return nums;
-        }
-        println!("pivot_helper.pivot_index: {:?}", pivot_helper.pivot_index);
-        quick_sort(nums.clone(), Some(_left), Some(pivot_helper.pivot_index - 1));
-        quick_sort(nums.clone(), Some(pivot_helper.pivot_index - 1), Some(_right));
+        // let pivot_index = pivot_helper(nums, Some(_left), Some(_right));
+        // quick_sort(nums.clone(), Some(_left), Some(pivot_index - 1));
+        // quick_sort(nums.clone(), Some(pivot_index - 1), Some(_right));
     }
     nums
 }
 
-struct PivotHelper {
-    pivot_index: usize,
-    nums: Vec<i32>
-}
-
-fn pivot_helper(mut nums: Vec<i32>, start: Option<usize>, end: Option<usize>) -> PivotHelper {
+fn pivot_helper(mut nums: Vec<i32>, start: Option<usize>, end: Option<usize>) -> usize {
 
     let _start: usize = match start {
         Some(x) => x,
@@ -130,10 +108,7 @@ fn pivot_helper(mut nums: Vec<i32>, start: Option<usize>, end: Option<usize>) ->
         i+=1;
     }
     nums.swap(_start, swap_index);
-    PivotHelper {
-        pivot_index: swap_index,
-        nums
-    }
+    swap_index
 }
 
 // homebrew, not offical
