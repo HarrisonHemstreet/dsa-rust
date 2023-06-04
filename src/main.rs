@@ -89,6 +89,8 @@ fn main() {
     let str: &str = "test5";
     sl.push(str);
     println!("node string: {:?}", sl);
+    sl.pop();
+    println!("node string: {:?}", sl);
 }
 
 use std::rc::Rc;
@@ -122,6 +124,13 @@ impl<T: std::clone::Clone + std::fmt::Debug> SinglyLinkedList<T> {
         } else {
             if let Some(node) = &self.tail {
                 node.borrow_mut().next = Some(Rc::new(RefCell::new(new_node)));
+            }
+        }
+    }
+    fn pop(&mut self) -> () {
+        if self.tail.is_some() {
+            if let Some(tail) = &self.tail {
+                tail.borrow_mut().next = None;
             }
         }
     }
