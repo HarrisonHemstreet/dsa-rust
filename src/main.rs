@@ -52,17 +52,85 @@ fn main() {
     //     "insertion_sort: {:?}",
     //     insertion_sort(vec![50, 1, 6, 1, 4, 9, 2, 4, 5])
     // );
-
     // println!("merge_sorted: {:?}", merge_sorted(vec![3, 8, 10, 11, 12], vec![1, 4, 5, 6,99,100,110]));
     // println!("merge_sort: {:?}", merge_sort(vec![9,8,7,6,5,1,2,3,4]));
     // println!("pivot_helper: {:?}", pivot_helper(vec![26,23,27,44,17,47,39,42,43,1], None, None))
-    println!("quick_sort: {:?}", quick_sort(vec![5,2,1,8,4,7,6,3], None, None));
+    // println!("quick_sort: {:?}", quick_sort(vec![5,2,1,8,4,7,6,3], None, None));
+    // let test = Node {val: "test", next: Some(Box::new(Node {val: "test2", next: Some(Box::new(Node {val: "test3", next: None}))}))};
+    // println!("test: {:?}", test);
+    // println!("test: {:?}", match test.next {
+    //     Some(x) => x.val,
+    //     None => todo!()
+    // });
+
+    // if let Some(inner_node) = test.next {
+    //     if let Some(more_inner_node) = inner_node.next {
+    //         println!("more_inner_node: {:?}", more_inner_node);
+    //     }
+    // }
+    // println!("test: {:?}", test.next.next);
+    // println!("test: {:?}", test.next.next);
+    // let test = Some(Rc::new(RefCell::new(Node {val: "test", next: Some(Rc::new(RefCell::new(Node {val: "test2", next: None})))})));
+    // if let Some(node) = test {
+    //     if let Some(next_node) = node.borrow().next.as_ref() {
+    //         println!("{}", next_node.borrow().val);
+    //     }
+    // }
+    // let mut sl = SinglyLinkedList {
+    //     length: 0,
+    //     head: Some(Rc::new(RefCell::new(Node {val: "test", next: Some(Rc::new(RefCell::new(Node {val: "test2", next: None})))}))),
+    //     tail: Some(Rc::new(RefCell::new(Node {val: "test3", next: Some(Rc::new(RefCell::new(Node {val: "test4", next: None})))})))
+    // };
+    let mut sl = SinglyLinkedList {
+        length: 0,
+        head: Some(Rc::new(RefCell::new(Node {val: "test", next: None}))),
+        tail: Some(Rc::new(RefCell::new(Node {val: "test2", next: None})))
+    };
+    let str: &str = "test5";
+    sl.push(str);
+    println!("node string: {:?}", sl);
+}
+
+use std::rc::Rc;
+use std::cell::RefCell;
+
+type Link<T> = Option<Rc<RefCell<Node<T>>>>;
+
+#[derive(Clone, Debug)]
+struct Node<T> where T: Clone {
+    val: T,
+    next: Link<T>
+}
+
+#[derive(Clone, Debug)]
+struct SinglyLinkedList<T> where T: Clone {
+    length: usize,
+    head: Option<Rc<RefCell<Node<T>>>>,
+    tail: Option<Rc<RefCell<Node<T>>>>
+}
+
+impl<T: std::clone::Clone + std::fmt::Debug> SinglyLinkedList<T> {
+    fn push(&mut self, val: T) -> () {
+        let new_node: Node<T> = Node {
+            val,
+            next: None
+        };
+        self.length += 1;
+        if self.head.is_none() {
+            self.head = Some(Rc::new(RefCell::new(new_node.clone())));
+            self.tail = Some(Rc::new(RefCell::new(new_node)));
+        } else {
+            if let Some(node) = &self.tail {
+                node.borrow_mut().next = Some(Rc::new(RefCell::new(new_node)));
+            }
+        }
+    }
 }
 
 // this doesn't work. I got as far as I could w/ Colt Steele's udemy course. Uncomment this out to
 // see the answer he came up with. My answer (that works, but maybe not in the same way as this
 // should)
-fn quick_sort(mut nums: Vec<i32>, left: Option<usize>, right: Option<usize>) -> Vec<i32> {
+fn quick_sort_fail(mut nums: Vec<i32>, left: Option<usize>, right: Option<usize>) -> Vec<i32> {
     let _left: usize = match left {
         Some(x) => x,
         None => 0usize
