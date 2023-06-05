@@ -88,9 +88,10 @@ fn main() {
     };
     let str: &str = "test5";
     sl.push(str);
-    println!("node string: {:?}", sl);
-    sl.pop();
-    println!("node string: {:?}", sl);
+    // println!("node string: {:?}", sl);
+    // sl.pop();
+    // println!("node string: {:?}", sl);
+    sl.get_len(Some(&Rc::new(RefCell::new(Node {val: "test", next: None}))));
 }
 
 use std::rc::Rc;
@@ -98,26 +99,26 @@ use std::cell::RefCell;
 
 type Link<T> = Option<Rc<RefCell<Node<T>>>>;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 struct Node<T> where T: Clone {
     val: T,
     next: Link<T>
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 struct SinglyLinkedList<T> where T: Clone {
     length: usize,
     head: Option<Rc<RefCell<Node<T>>>>,
     tail: Option<Rc<RefCell<Node<T>>>>
 }
 
-impl<T: std::clone::Clone + std::fmt::Debug> SinglyLinkedList<T> {
+impl<T: std::clone::Clone + std::fmt::Debug + std::default::Default> SinglyLinkedList<T> {
     fn push(&mut self, val: T) -> () {
+        self.length += 1;
         let new_node: Node<T> = Node {
             val,
             next: None
         };
-        self.length += 1;
         if self.head.is_none() {
             self.head = Some(Rc::new(RefCell::new(new_node.clone())));
             self.tail = Some(Rc::new(RefCell::new(new_node)));
@@ -127,10 +128,39 @@ impl<T: std::clone::Clone + std::fmt::Debug> SinglyLinkedList<T> {
             }
         }
     }
+
     fn pop(&mut self) -> () {
         if self.tail.is_some() {
+            self.length -= 1;
             if let Some(tail) = &self.tail {
                 tail.borrow_mut().next = None;
+            }
+        }
+    }
+
+    fn get_len(&mut self, node: Option<&Rc<RefCell<Node<T>>>>) {
+        /*
+        * 1. take in self. just try to access the next value. if the next value is a None, exit. If
+        *    it's a Some, then run again. When None is hit, return the num of iterations it took
+        */
+        // let mut count: usize = 0;
+        // if let Some(x) = node {
+        //     println!("in if let some: count: {count}");
+        //     count += 1;
+        //     println!("x: {:?}",x.value)
+        //     // self.get_len(Some(x));
+        // }
+        // count += 1;
+        // println!("count: {count}");
+        // self.length = count;
+    }
+
+    fn traverse(&mut self) {
+        let mut current = &self.head;
+        while current.is_some() {
+            if let Some(node) = current {
+                println!("node.val: {:?}", node.borrow_mut().val);
+                let current = &node.borrow_mut().next;
             }
         }
     }
