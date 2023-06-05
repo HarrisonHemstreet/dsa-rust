@@ -143,16 +143,15 @@ impl<T: std::clone::Clone + std::fmt::Debug + std::default::Default> SinglyLinke
         * 1. take in self. just try to access the next value. if the next value is a None, exit. If
         *    it's a Some, then run again. When None is hit, return the num of iterations it took
         */
-        // let mut count: usize = 0;
-        // if let Some(x) = node {
-        //     println!("in if let some: count: {count}");
-        //     count += 1;
-        //     println!("x: {:?}",x.value)
-        //     // self.get_len(Some(x));
-        // }
-        // count += 1;
-        // println!("count: {count}");
-        // self.length = count;
+        let mut count: usize = 0;
+        if let Some(x) = node {
+            println!("in if let some: count: {count}");
+            count += 1;
+            self.get_len(Some(x));
+        }
+        count += 1;
+        println!("count: {count}");
+        self.length = count;
     }
 
     fn traverse(&mut self) {
