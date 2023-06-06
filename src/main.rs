@@ -81,19 +81,58 @@ fn main() {
     //     head: Some(Rc::new(RefCell::new(Node {val: "test", next: Some(Rc::new(RefCell::new(Node {val: "test2", next: None})))}))),
     //     tail: Some(Rc::new(RefCell::new(Node {val: "test3", next: Some(Rc::new(RefCell::new(Node {val: "test4", next: None})))})))
     // };
-    let mut sl = SinglyLinkedList {
-        length: 0,
-        head: Some(Rc::new(RefCell::new(Node {val: "test", next: None}))),
-        tail: Some(Rc::new(RefCell::new(Node {val: "test2", next: None})))
+    // let mut sl = SinglyLinkedList {
+    //     length: 0,
+    //     head: Some(Rc::new(RefCell::new(Node {val: "test", next: None}))),
+    //     tail: Some(Rc::new(RefCell::new(Node {val: "test2", next: None})))
+    // };
+    // let str: &str = "test5";
+    // sl.push(str);
+    // // println!("node string: {:?}", sl);
+    // // sl.pop();
+    // // println!("node string: {:?}", sl);
+    // sl.get_len(Some(&Rc::new(RefCell::new(Node {val: "test", next: None}))));
+    let sl = Node {
+        value: "head",
+        next: Some(Box::new(Node {value: "tail", next: None}))
     };
-    let str: &str = "test5";
-    sl.push(str);
-    // println!("node string: {:?}", sl);
-    // sl.pop();
-    // println!("node string: {:?}", sl);
-    sl.get_len(Some(&Rc::new(RefCell::new(Node {val: "test", next: None}))));
 }
 
+// type Link<T> = Node<T>;
+
+#[derive(Debug, Clone, PartialEq)]
+struct Node<T> {
+    value: T,
+    next: Option<Box<Node<T>>>
+}
+
+#[derive(Debug, Clone, PartialEq)]
+struct SinglyLinkedList<T> {
+    length: usize,
+    head: Option<Box<Node<T>>>,
+    tail: Option<Box<Node<T>>>
+}
+
+impl<T: std::fmt::Debug> SinglyLinkedList<T> {
+    fn get_len(&self, node: Option<Box<Node<T>>>) -> () {
+        if let Some(x) = node {
+            println!("current node: {:?}", x);
+        }
+    }
+}
+
+struct MyStruct<T> {
+    a: T,
+    b: T
+}
+
+impl<T> MyStruct<T> {
+    fn return_a(self) -> T {
+        self.a
+    }
+}
+
+/*
 use std::rc::Rc;
 use std::cell::RefCell;
 
@@ -164,6 +203,7 @@ impl<T: std::clone::Clone + std::fmt::Debug + std::default::Default> SinglyLinke
         }
     }
 }
+*/
 
 // this doesn't work. I got as far as I could w/ Colt Steele's udemy course. Uncomment this out to
 // see the answer he came up with. My answer (that works, but maybe not in the same way as this
